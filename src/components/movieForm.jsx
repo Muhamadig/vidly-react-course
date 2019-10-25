@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "./common/form";
 import Joi from "joi-browser";
-import { getMovie } from "./../services/fakeMovieService";
+import { getMovie, saveMovie } from "./../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 class MovieForm extends Form {
   state = {
@@ -47,9 +47,6 @@ class MovieForm extends Form {
     }
   }
 
-  handleSave = () => {
-    this.props.history.replace("/movies");
-  };
   handleCancel = () => {
     this.props.history.push("/movies");
   };
@@ -59,6 +56,7 @@ class MovieForm extends Form {
     return movie.id ? `Edit ${movie.title} Movie` : "Add New Movie";
   };
   doSubmit = () => {
+    saveMovie(this.state.data);
     this.props.history.push("/movies");
   };
   getGenres = () => {

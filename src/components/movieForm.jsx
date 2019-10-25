@@ -3,6 +3,7 @@ import Form from "./common/form";
 import Joi from "joi-browser";
 import { getMovie, saveMovie } from "./../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
+import { Redirect } from "react-router-dom";
 class MovieForm extends Form {
   state = {
     data: {
@@ -35,6 +36,12 @@ class MovieForm extends Form {
     const { path, params } = this.props.match;
     if (path === "/movies/:id") {
       const movie = getMovie(params.id);
+      console.log(movie);
+      if (!movie) {
+        this.props.history.push("/not-found");
+        return;
+      }
+
       this.setState({
         data: {
           id: movie._id,

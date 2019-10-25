@@ -15,7 +15,7 @@ const ButtonGroup = props => {
           onClick={() => onItemSelect(item)}
           type="button"
           className={
-            selectedItem === item ? "btn btn-primary active" : "btn btn-primary"
+            selectedItem === item ? "btn btn-info active" : "btn btn-info"
           }
         >
           {item[textProperty]}

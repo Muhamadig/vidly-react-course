@@ -6,11 +6,12 @@ import { paginate } from "../utils/paginate.js";
 import ButtonGroup from "./common/buttonGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 export default class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    pageSize: 3,
+    pageSize: 5,
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" }
   };
@@ -48,6 +49,9 @@ export default class Movies extends Component {
   handleSort = sortColumn => {
     this.setState({ sortColumn });
   };
+  handleNewMovie = () => {
+    this.props.history.push("/new");
+  };
 
   render() {
     const { length: moviesCount } = this.state.movies;
@@ -58,24 +62,30 @@ export default class Movies extends Component {
       selectedGenre && selectedGenre._id
         ? allMovies.filter(movie => movie.genre._id === selectedGenre._id)
         : allMovies;
-    console.log(sortColumn);
 
     const sorted = _.orderBy(
       filteredMovies,
       [sortColumn.path],
       [sortColumn.order]
     );
-    console.log(sorted);
     const movies = paginate(
       sorted,
       this.state.currentPage,
       this.state.pageSize
     );
-
     return (
-      <div className="table-responsive container row">
-        <div className="row">
-          <div className="col col-2">
+      <React.Fragment>
+        <div className="row mb-5">
+          <div className="col">
+            <h1 className="">Movies</h1>
+          </div>
+        </div>
+        <div className=" row ">
+          <div className="col col-sm-2">
+            <Link className="btn btn-primary mb-2" to="/movies/new">
+              New Movie
+            </Link>
+
             <ButtonGroup
               items={this.state.genres}
               selectedItem={this.state.selectedGenre}
@@ -107,7 +117,7 @@ export default class Movies extends Component {
             />
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

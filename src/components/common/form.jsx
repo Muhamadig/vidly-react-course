@@ -69,22 +69,17 @@ class Form extends Component {
       />
     );
   };
-  renderSelectMenu = (
-    label,
-    name,
-    options,
-    currentValue,
-    autoFocus = false
-  ) => {
+  renderSelectMenu = (label, name, options, autoFocus = false) => {
+    const { data, errors } = this.state;
     return (
       <SelectMenu
-        label={label}
         name={name}
+        value={data[name]}
+        label={label}
         options={options}
-        value={currentValue}
-        autoFocus={autoFocus}
         onChange={this.handleChange}
-        error={this.state.errors[name]}
+        error={errors[name]}
+        autoFocus={autoFocus}
       />
     );
   };

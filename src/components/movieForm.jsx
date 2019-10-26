@@ -14,6 +14,7 @@ class MovieForm extends Form {
     genres: [],
     errors: {}
   };
+
   schema = {
     _id: Joi.string(),
     title: Joi.string()
@@ -33,6 +34,7 @@ class MovieForm extends Form {
       .required()
       .label("Rate")
   };
+
   componentDidMount() {
     const genres = getGenres();
     this.setState({ genres });
@@ -62,10 +64,6 @@ class MovieForm extends Form {
     this.props.history.push("/movies");
   };
 
-  handleCancel = () => {
-    this.props.history.push("/movies");
-  };
-
   handleTitle = () => {
     const movie = { ...this.state.data };
     return movie._id ? `Edit "${movie.title}" Movie` : "Add New Movie";
@@ -81,12 +79,7 @@ class MovieForm extends Form {
           {this.renderInput("Stock", "number", "numberInStock")}
           {this.renderInput("Rate", "number", "dailyRentalRate")}
           {this.renderSubmitForm("Save")}
-          <button
-            onClick={this.handleCancel}
-            className="btn btn-secondary ml-2"
-          >
-            Cancel
-          </button>
+          {this.renderCancelForm("Cancel", "/movies")}
         </form>
       </div>
     );

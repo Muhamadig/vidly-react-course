@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./input";
 import SelectMenu from "./selectMenu";
-import Menu from "./menu";
 class Form extends Component {
   state = {
     data: {},
     errors: {}
   };
+
   validate = () => {
     const options = {
       abortEarly: false
@@ -54,6 +54,19 @@ class Form extends Component {
     </button>
   );
 
+  renderCancelForm = (label, redirectTo) => (
+    <button
+      onClick={() => this.handleCancel(redirectTo)}
+      className="btn btn-secondary ml-2"
+    >
+      {label}
+    </button>
+  );
+
+  handleCancel = redirectTo => {
+    this.props.history.push(redirectTo);
+  };
+
   renderInput = (label, type = "text", name, autoFocus = false) => {
     const { data } = this.state;
     const { errors } = this.state;
@@ -69,6 +82,7 @@ class Form extends Component {
       />
     );
   };
+
   renderSelectMenu = (label, name, options, autoFocus = false) => {
     const { data, errors } = this.state;
     return (
@@ -82,9 +96,6 @@ class Form extends Component {
         autoFocus={autoFocus}
       />
     );
-  };
-  renderMenu = (label, name, data, autoFocus = false) => {
-    return <Menu label={label} name={name} data={data} autoFocus={autoFocus} />;
   };
 }
 export default Form;

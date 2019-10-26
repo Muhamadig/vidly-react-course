@@ -7,12 +7,15 @@ import ButtonGroup from "./common/buttonGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import SearchBox from "./common/searchBox";
 export default class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    pageSize: 5,
     currentPage: 1,
+    pageSize: 5,
+    searchQuery: "",
+    selectedGenre: null,
     sortColumn: { path: "title", order: "asc" }
   };
   componentDidMount() {
@@ -43,7 +46,15 @@ export default class Movies extends Component {
   };
 
   handleGenreSelect = genre => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, currentPage: 1, searchQuery: "" });
+  };
+
+  handleSearch = query => {
+    this.setState({
+      searchQuery: query,
+      selectedGenre: null,
+      currentPage: 1
+    });
   };
 
   handleSort = sortColumn => {
@@ -52,16 +63,23 @@ export default class Movies extends Component {
   handleNewMovie = () => {
     this.props.history.push("/new");
   };
-
   render() {
     const { length: moviesCount } = this.state.movies;
-    const { movies: allMovies, selectedGenre, sortColumn } = this.state;
+    const {
+      movies: allMovies,
+      selectedGenre,
+      sortColumn,
+      searchQuery
+    } = this.state;
     if (moviesCount === 0) return <p>There Are No Movies To Show.</p>;
 
-    const filteredMovies =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter(movie => movie.genre._id === selectedGenre._id)
-        : allMovies;
+    const filteredMovies = searchQuery
+      ? allMovies.filter(movie =>
+          movie.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+        )
+      : selectedGenre && selectedGenre._id
+      ? allMovies.filter(movie => movie.genre._id === selectedGenre._id)
+      : allMovies;
 
     const sorted = _.orderBy(
       filteredMovies,
@@ -93,9 +111,23 @@ export default class Movies extends Component {
             />
           </div>
           <div className="col">
+            <div className="row search">
+              <div className="col ">
+                <SearchBox
+                  value={searchQuery}
+                  onChange={this.handleSearch}
+                  placeholder="Search Movie By Title..."
+                />
+              </div>
+            </div>
             <div className="row">
               <div className="col col-6">
-                <span style={{ color: "#6c757d", textAlign: "start" }}>
+                <span
+                  style={{
+                    color: "#6c757d",
+                    textAlign: "start"
+                  }}
+                >
                   Showing {movies.length} Movies of {filteredMovies.length}.
                 </span>
               </div>

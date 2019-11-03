@@ -22,7 +22,7 @@ class RegisterForm extends Form {
 
   doSubmit = async () => {
     try {
-      const { data } = await userService.register(this.state.data);
+      await userService.register(this.state.data);
       return this.props.history.push("/movies");
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {

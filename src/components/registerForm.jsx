@@ -1,7 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-
+import * as userService from "./../services/userService";
+import { toast } from "react-toastify";
 class RegisterForm extends Form {
   state = { data: { username: "", password: "", name: "" }, errors: {} };
 
@@ -19,11 +20,18 @@ class RegisterForm extends Form {
       .label("Name")
   };
 
-  doSubmit = () => {
-    alert(
-      `Request Sent : username:${this.state.data.username},password:${this.state.data.password},name:${this.state.data.name}`
-    );
-    //call the server
+  doSubmit = async () => {
+    try {
+      const { data } = await userService.register(this.state.data);
+      return this.props.history.push("/movies");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        toast.error("Error: Can't register with the following info");
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {

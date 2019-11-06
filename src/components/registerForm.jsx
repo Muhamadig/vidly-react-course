@@ -3,7 +3,8 @@ import Joi from "joi-browser";
 import Form from "./common/form";
 import * as userService from "./../services/userService";
 import { toast } from "react-toastify";
-import { loginWithJwt } from "../services/authService";
+import { loginWithJwt, getCurrentUser } from "../services/authService";
+import { Redirect } from "react-router-dom";
 class RegisterForm extends Form {
   state = { data: { username: "", password: "", name: "" }, errors: {} };
 
@@ -37,6 +38,7 @@ class RegisterForm extends Form {
   };
 
   render() {
+    if (getCurrentUser()) return <Redirect to="/" />;
     return (
       <div>
         <form className="form-register" onSubmit={this.handleSubmit}>

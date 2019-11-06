@@ -15,9 +15,11 @@ class LoginForm extends Form {
   };
 
   doSubmit = async () => {
+    const { state } = this.props.location;
+
     try {
       await login(this.state.data);
-      window.location = "/";
+      window.location = state ? state.from.pathname : "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const { errors } = this.state;

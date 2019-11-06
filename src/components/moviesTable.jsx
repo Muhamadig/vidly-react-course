@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Like from "./common/like.jsx";
 import Table from "./common/table.jsx";
-import { Link } from "react-router-dom";
 import { getCurrentUser } from "../services/authService.js";
+import { Link } from "react-router-dom";
 class MoviesTable extends Component {
   columns = [
     {

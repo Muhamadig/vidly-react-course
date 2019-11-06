@@ -71,7 +71,6 @@ class MovieForm extends Form {
     const movie = { ...this.state.data };
     return movie._id ? `Edit "${movie.title}" Movie` : "Add New Movie";
   };
-
   render() {
     return (
       <div>

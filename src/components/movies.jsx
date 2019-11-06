@@ -49,6 +49,13 @@ export default class Movies extends Component {
           currentPage: originalCurrentPage
         });
       }
+      if (ex.response && ex.response.status === 401) {
+        toast.error("Unauthorized");
+        this.setState({
+          movies: originalMovies,
+          currentPage: originalCurrentPage
+        });
+      }
     }
   };
 
@@ -89,6 +96,7 @@ export default class Movies extends Component {
       sortColumn,
       searchQuery
     } = this.state;
+    const { user } = this.props;
     if (moviesCount === 0) return <p>There Are No Movies To Show.</p>;
 
     const filteredMovies = searchQuery
@@ -118,9 +126,11 @@ export default class Movies extends Component {
         </div>
         <div className=" row ">
           <div className="col col-sm-2">
-            <Link className="btn btn-primary mb-2" to="/movies/new">
-              New Movie
-            </Link>
+            {user && user.isAdmin && (
+              <Link className="btn btn-primary mb-2" to="/movies/new">
+                New Movie
+              </Link>
+            )}
 
             <ButtonGroup
               items={this.state.genres}

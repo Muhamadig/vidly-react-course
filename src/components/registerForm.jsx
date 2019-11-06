@@ -3,6 +3,7 @@ import Joi from "joi-browser";
 import Form from "./common/form";
 import * as userService from "./../services/userService";
 import { toast } from "react-toastify";
+import { loginWithJwt } from "../services/authService";
 class RegisterForm extends Form {
   state = { data: { username: "", password: "", name: "" }, errors: {} };
 
@@ -22,8 +23,9 @@ class RegisterForm extends Form {
 
   doSubmit = async () => {
     try {
-      await userService.register(this.state.data);
-      return this.props.history.push("/movies");
+      const { headers } = await userService.register(this.state.data);
+      loginWithJwt(headers["x-auth-token"]);
+      window.location = "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         toast.error("Error: Can't register with the following info");

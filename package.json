@@ -9,6 +9,7 @@
     "font-awesome": "^4.7.0",
     "joi": "^14.3.1",
     "joi-browser": "^13.4.0",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",

@@ -1,4 +1,4 @@
-The Back End of the Prject is under https://github.com/mosh-hamedani/vidly-api-node 
+The Back End of the Project is under https://github.com/mosh-hamedani/vidly-api-node 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
